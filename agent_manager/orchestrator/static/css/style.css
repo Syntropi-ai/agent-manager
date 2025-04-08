@@ -1,0 +1,59 @@
+/* Agent Manager Custom Styles */
+
+/* Add custom padding to the main container */
+body {
+    padding-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer styling */
+.footer {
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Session card styling */
+.session-card {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.session-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* VNC iframe container */
+.vnc-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Status indicators */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-running {
+    background-color: #28a745;
+}
+
+.status-paused {
+    background-color: #ffc107;
+}
+
+.status-stopped {
+    background-color: #dc3545;
+}
+
+/* Modal adjustments */
+.modal-xl {
+    max-width: 95%;
+}

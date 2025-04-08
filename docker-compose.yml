@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  orchestrator:
+    build: .
+    container_name: agent-orchestrator
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - FLASK_APP=agent_manager.orchestrator.app
+      - FLASK_ENV=development
+    networks:
+      - agent-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    container_name: agent-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - agent-network
+
+  # Example of a chrome session container - this will be spawned dynamically
+  session-template:
+    image: consol/rocky-xfce-vnc
+    profiles:
+      - donotstart
+    environment:
+      - VNC_PW=vncpassword
+      - VNC_RESOLUTION=1280x800
+    ports:
+      - "5901-5910:5901"  # VNC ports
+      - "6901-6910:6901"  # noVNC web client ports
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge

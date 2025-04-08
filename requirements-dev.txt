@@ -1,0 +1,9 @@
+-r requirements.txt
+pytest>=7.0.0
+pytest-cov>=3.0.0
+black>=22.1.0
+mypy>=0.941
+ruff>=0.0.210
+pre-commit>=2.19.0
+sphinx>=4.4.0
+sphinx-rtd-theme>=1.0.0

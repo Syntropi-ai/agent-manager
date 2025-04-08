@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  app:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/agent-manager:${IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - AGENT_MANAGER_HOST=0.0.0.0
+      - AGENT_MANAGER_PORT=5000
+      - AGENT_MANAGER_DEBUG=False
+      - AGENT_MANAGER_SECRET_KEY=${SECRET_KEY}
+      - AGENT_MANAGER_DOCKER_URL=/var/run/docker.sock
+      - AGENT_MANAGER_BASE_IMAGE=consol/rocky-xfce-vnc
+      - AGENT_MANAGER_NETWORK_NAME=agent-network
+      - AGENT_MANAGER_VNC_PASSWORD=${VNC_PASSWORD}
+      - AGENT_MANAGER_REDIS_HOST=redis
+      - AGENT_MANAGER_AI_API_KEY=${AI_API_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+    networks:
+      - agent-network
+      - browser-network
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
+  browser-network:
+    name: agent-network
+    external: false
+
+volumes:
+  redis-data:
