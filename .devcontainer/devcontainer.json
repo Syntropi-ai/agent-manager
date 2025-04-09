@@ -2,7 +2,7 @@
     "name": "Agent Manager Development",
     "dockerComposeFile": "docker-compose.yml",
     "service": "devcontainer",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/workspaces/agent-manager",
     
     "customizations": {
         "vscode": {
