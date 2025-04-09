@@ -24,13 +24,13 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN usermod -aG docker $USERNAME
 
 # Install Python dependencies
-WORKDIR /workspace
+WORKDIR /workspaces/agent-manager
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install development tools
 RUN pip install --no-cache-dir black ruff mypy pytest pytest-cov
 
-ENV PYTHONPATH=/workspace
+ENV PYTHONPATH=/workspaces/agent-manager
 
 USER $USERNAME
