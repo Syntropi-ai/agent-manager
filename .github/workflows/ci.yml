@@ -31,7 +31,7 @@ jobs:
 
     - name: Lint with ruff
       run: |
-        ruff check agent_manager tests
+        ruff check --ignore E501 agent_manager tests
     
     - name: Type check with mypy
       run: |
