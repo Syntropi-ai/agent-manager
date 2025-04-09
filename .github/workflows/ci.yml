@@ -10,9 +10,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.11]
 
     steps:
     - uses: actions/checkout@v3
@@ -34,7 +31,7 @@ jobs:
 
     - name: Lint with ruff
       run: |
-        ruff agent_manager tests
+        ruff check agent_manager tests
     
     - name: Type check with mypy
       run: |
