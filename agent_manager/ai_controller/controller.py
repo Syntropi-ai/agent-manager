@@ -3,10 +3,10 @@ AI Controller for browser automation.
 Implements the logic for controlling browser sessions using AI models.
 """
 
-from typing import Dict, Any, Optional
 import logging
 import threading
 import time
+from typing import Any, Dict, Optional
 
 
 class AIController:
@@ -29,8 +29,8 @@ class AIController:
         self.paused = False
         self.current_instructions = "Browse the web and summarize content"
         self.logger = logging.getLogger(f"ai_controller.{session_id}")
-        self.control_thread = None
-        self.last_action_time = 0
+        self.control_thread: Optional[threading.Thread] = None
+        self.last_action_time: float = 0.0
         self.last_page_content = ""
         self.browser = None  # This would be a browser automation client
 
@@ -196,7 +196,7 @@ class AIControllerManager:
     Manages AI controllers for multiple browser sessions.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the AI controller manager."""
         self.controllers: Dict[str, AIController] = {}
         self.logger = logging.getLogger("ai_controller_manager")

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/workspaces/agent-manager:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: sleep infinity
+    environment:
+      - FLASK_APP=agent_manager.orchestrator.app
+      - FLASK_ENV=development
+    networks:
+      - agent-network
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge

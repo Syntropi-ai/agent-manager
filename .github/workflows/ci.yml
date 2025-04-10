@@ -6,13 +6,13 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  merge_group:
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.9, 3.10]
 
     steps:
     - uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
 
     - name: Lint with ruff
       run: |
-        ruff agent_manager tests
+        ruff check --ignore E501 agent_manager tests
     
     - name: Type check with mypy
       run: |

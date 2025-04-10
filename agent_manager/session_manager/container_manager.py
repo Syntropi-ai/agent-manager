@@ -2,10 +2,11 @@
 Container Manager for handling browser sessions in Docker containers.
 """
 
-import uuid
-import docker
-from typing import Dict, List, Optional, Any
 import time
+import uuid
+from typing import Any, Dict, List, Optional
+
+import docker
 
 
 class ContainerManager:
@@ -14,7 +15,7 @@ class ContainerManager:
     Each container runs a VNC-enabled desktop environment with Chrome/Chromium.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the container manager with a Docker client."""
         self.docker_client = docker.from_env()
         self.sessions: Dict[str, Dict[str, Any]] = {}
