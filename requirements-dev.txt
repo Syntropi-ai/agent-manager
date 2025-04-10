@@ -7,3 +7,5 @@ ruff>=0.0.210
 pre-commit>=2.19.0
 sphinx>=4.4.0
 sphinx-rtd-theme>=1.0.0
+types-docker>=5.0.0
+types-Flask-SocketIO>=5.1.1
