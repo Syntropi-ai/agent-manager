@@ -4,12 +4,13 @@ Sets up logging with appropriate formatters and handlers.
 """
 
 import logging
-import sys
 import os
+import sys
 from datetime import datetime
+from typing import Optional
 
 
-def setup_logger(name: str = None, log_level: str = "INFO") -> logging.Logger:
+def setup_logger(name: Optional[str] = None, log_level: str = "INFO") -> logging.Logger:
     """
     Set up a logger with consistent formatting.
 

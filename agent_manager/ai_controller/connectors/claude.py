@@ -2,21 +2,21 @@
 Claude AI connector for integration with Anthropic's Claude model.
 """
 
+import base64
 import json
 import time
-import base64
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 try:
-    import anthropic
+    import anthropic  # type: ignore
 
     ANTHROPIC_AVAILABLE = True
 except ImportError:
     ANTHROPIC_AVAILABLE = False
 
+from agent_manager.ai_controller.connectors.base import AIConnector
 from agent_manager.utils.config import config
 from agent_manager.utils.logger import logger
-from agent_manager.ai_controller.connectors.base import AIConnector
 
 
 class ClaudeConnector(AIConnector):
@@ -28,8 +28,8 @@ class ClaudeConnector(AIConnector):
     """
 
     def __init__(
-        self, api_key: Optional[str] = None, model: Optional[str] = None, **kwargs
-    ):
+        self, api_key: Optional[str] = None, model: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         Initialize the Claude connector.
 
@@ -54,7 +54,7 @@ class ClaudeConnector(AIConnector):
                 "Anthropic API key not set. Please set the AGENT_MANAGER_AI_API_KEY environment variable."
             )
 
-    def _get_client(self):
+    def _get_client(self) -> Any:
         """
         Get an Anthropic client instance.
 
@@ -105,7 +105,9 @@ class ClaudeConnector(AIConnector):
                     messages=[{"role": "user", "content": prompt}],
                 )
 
-                return response.content[0].text
+                # Ensure we return a string type for mypy
+                response_text: str = response.content[0].text
+                return response_text
 
             except Exception as e:
                 logger.error(
@@ -116,6 +118,9 @@ class ClaudeConnector(AIConnector):
                     time.sleep(2**attempt)  # Exponential backoff
                 else:
                     return f"Error generating response: {str(e)}"
+
+        # This return statement ensures a return for all code paths
+        return "Failed to generate response after all retries"
 
     def analyze_page(
         self,
@@ -158,21 +163,26 @@ class ClaudeConnector(AIConnector):
 
         prompt = "\n\n".join([p for p in prompt_parts if p])
 
-        # Create messages
-        messages = [{"role": "user", "content": prompt}]
+        # Create messages with properly typed content
+        messages: List[Dict[str, Any]] = [{"role": "user", "content": prompt}]
 
         # Add image if available
         if image_content:
-            messages[0]["content"] = [
-                {"type": "text", "text": prompt},
+            messages = [
                 {
-                    "type": "image",
-                    "source": {
-                        "type": "base64",
-                        "media_type": "image/png",
-                        "data": image_content,
-                    },
-                },
+                    "role": "user",
+                    "content": [  # type: ignore
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "image/png",
+                                "data": image_content,
+                            },
+                        },
+                    ],
+                }
             ]
 
         try:
@@ -205,7 +215,8 @@ class ClaudeConnector(AIConnector):
 
                 if json_start >= 0 and json_end > json_start:
                     json_str = structured_response[json_start:json_end]
-                    analysis = json.loads(json_str)
+                    # Explicit cast to satisfy mypy
+                    analysis: Dict[str, Any] = json.loads(json_str)
                 else:
                     analysis = {
                         "title": "Unable to parse structured data",
@@ -330,7 +341,8 @@ Return a JSON object with the following structure:
 
             if json_start >= 0 and json_end > json_start:
                 json_str = response[json_start:json_end]
-                decision = json.loads(json_str)
+                # Explicit cast to Dict[str, Any] to satisfy mypy
+                decision: Dict[str, Any] = json.loads(json_str)
 
                 # Validate that the action is in the available actions
                 if decision.get("action") not in available_actions:

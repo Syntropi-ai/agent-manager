@@ -2,16 +2,16 @@
 Main entry point for the Agent Manager application.
 """
 
-import sys
-import os
 import argparse
+import os
+import sys
 
 from agent_manager.orchestrator.app import app, socketio
 from agent_manager.utils.config import config
 from agent_manager.utils.logger import logger
 
 
-def main():
+def main() -> None:
     """
     Run the Agent Manager application.
 

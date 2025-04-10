@@ -4,7 +4,7 @@ Defines the interface that all AI connectors should implement.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 
 class AIConnector(ABC):
@@ -15,7 +15,7 @@ class AIConnector(ABC):
     to provide a consistent way to interact with different AI models.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """
         Initialize the AI connector.
 

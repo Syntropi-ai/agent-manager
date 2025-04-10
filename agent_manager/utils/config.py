@@ -4,13 +4,13 @@ Loads configuration from environment variables and provides defaults.
 """
 
 import os
-from typing import Dict, Any, Union
+from typing import Any, Dict, Union
 
 
 class Config:
     """Configuration manager for the Agent Manager application."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize configuration with default values."""
         self.config: Dict[str, Any] = {
             # Web server settings
