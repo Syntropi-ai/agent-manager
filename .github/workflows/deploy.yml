@@ -47,8 +47,8 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/agent-manager:${{ steps.meta.outputs.version }}
-          ghcr.io/${{ github.repository_owner }}/agent-manager:latest
+          ghcr.io/${{ toLower(github.repository_owner) }}/agent-manager:${{ steps.meta.outputs.version }}
+          ghcr.io/${{ toLower(github.repository_owner) }}/agent-manager:latest
         labels: |
           org.opencontainers.image.source=${{ github.event.repository.html_url }}
           org.opencontainers.image.created=${{ steps.meta.outputs.date }}
