@@ -1,8 +1,12 @@
 # Agent Manager Architecture
 
-## System Overview
+## High-Level Design
 
-Agent Manager is a Python-based platform for launching, monitoring, and controlling multiple remote Chrome browser sessions, each operated by an AI agent. The system consists of several key components that work together to provide a unified experience.
+Agent Manager is a Python-based platform designed to launch, monitor, and control multiple remote Chrome browser sessions, each operated by an AI agent. The core concept of the project is to provide a unified interface for managing browser sessions and integrating AI models to automate browser interactions.
+
+### Core Concept
+
+The core concept of Agent Manager is to create a system that allows users to manage multiple browser sessions remotely, with each session being controlled by an AI agent. This enables automated browsing, data extraction, and interaction with web applications without manual intervention.
 
 ## Key Components
 
@@ -15,11 +19,6 @@ The orchestrator is a Flask-based web application that provides a dashboard for 
 - Providing a user interface for controlling sessions
 - Embedding noVNC clients for direct visual access to browser sessions
 
-**Key Files:**
-- `agent_manager/orchestrator/app.py`: Main Flask application
-- `agent_manager/orchestrator/templates/`: HTML templates for the web interface
-- `agent_manager/orchestrator/static/`: Static assets (CSS, JavaScript)
-
 ### 2. Session Manager
 
 The session manager component is responsible for:
@@ -29,9 +28,6 @@ The session manager component is responsible for:
 - Monitoring session status
 - Handling container lifecycle (start, stop, pause, resume)
 
-**Key Files:**
-- `agent_manager/session_manager/container_manager.py`: Container management logic
-
 ### 3. AI Controller
 
 The AI controller connects AI models to browser sessions, allowing AI agents to control the browser. It provides:
@@ -40,10 +36,6 @@ The AI controller connects AI models to browser sessions, allowing AI agents to 
 - Interpretation of AI instructions into browser actions
 - Reading of browser content for AI decision-making
 - Pause/resume functionality for AI control
-
-**Key Files:**
-- `agent_manager/ai_controller/controller.py`: Core AI controller logic
-- `agent_manager/ai_controller/connectors/`: AI model integrations
 
 ### 4. VNC Integration
 
